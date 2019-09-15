@@ -8,7 +8,7 @@
             style="">
             <a href="#/login">
               <img src="./assets/logo.png" style="float:left;margin:5px;" width="50px;"/>
-              <h3> 团队工作站</h3>
+              <h3>我们的办公室</h3>
             </a>
           </el-col>
           <el-col
