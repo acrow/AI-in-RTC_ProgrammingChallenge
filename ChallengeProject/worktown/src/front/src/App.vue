@@ -6,9 +6,9 @@
           <el-col
             :span="12"
             style="">
-            <a href="#/login">
+            <a href="#/">
               <img src="./assets/logo.png" style="float:left;margin:5px;" width="50px;"/>
-              <h3>办公小室</h3>
+              <h3>办公小镇<small v-if="team"> —— {{ team.name }}</small></h3>
             </a>
           </el-col>
           <el-col
@@ -18,6 +18,19 @@
               <span>
                 {{ loginUser.name }}
               </span>
+              &nbsp;
+              <el-button
+                v-if="$route.name !== 'profile'"
+                type="info"
+                size="mini"
+                icon="el-icon-setting"
+                @click="$router.push({name: 'profile'})"/>
+              <el-button
+                v-if="$route.name !== 'office'"
+                type="info"
+                size="mini"
+                icon="el-icon-mouse"
+                @click="$router.push({name: 'office'})"/>
               &nbsp;
               <el-button
                 type="danger"
@@ -44,7 +57,8 @@
   export default {
     computed: {
         ...mapState([
-        'loginUser'
+        'loginUser',
+        'team'
       ])
     },
     methods: {

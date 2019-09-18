@@ -16,7 +16,7 @@
                 v-model="member.isOpen"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
-                @change="open(member)">
+                @change="switchShow(member)">
               </el-switch>
             </div>
           </div>
@@ -31,6 +31,18 @@
 <script>  
 import api from '@/api.js'
 import { mapState } from 'vuex'
+const fixDomCss = (code) => {
+  let dom = document.getElementById('video' + code)
+  if (dom) {
+    dom.style.position = null
+  }
+}
+const clearDom = (code) => {
+  let dom = document.getElementById(code)
+  if (dom) {
+    dom.innerHTML = ''
+  }
+}
 export default {
   data () {
     return {
@@ -48,6 +60,10 @@ export default {
     ])
   },
   created () {
+    if (!this.loginUser.teamCode) {
+      this.$router.push({name: 'profile'})
+      return
+    }
     let _this = this
     _this.client.on('peer-online', function (evt) {
       let member = _this.getMember(evt.uid)
@@ -57,6 +73,7 @@ export default {
       let member = _this.getMember(evt.uid)
       _this.$set(member, 'isOpen', false)
       _this.$set(member, 'isOnline', false)
+      clearDom(member.code)
     })
     _this.client.on('stream-added', function (evt) {
       var stream = evt.stream;
@@ -71,25 +88,28 @@ export default {
       var stream = evt.stream
       let member = _this.getMember(stream.getId())
       member.stream.play(member.code, {fit: 'cover'}, err => {
+        fixDomCss(member.code)
         console.log(err)
+       _this.$set(member, 'isOpen', true)
       })
-      _this.$set(member, 'isOpen', true)
     })
     _this.client.on("stream-removed", function(evt) {
       var stream = evt.stream
+      stream.stop()
       let member = _this.getMember(stream.getId())
       _this.$set(member, 'stream', null)
       _this.$set(member, 'isOpen', false)
+      clearDom(member.code)
     })
     api.getTeam(this.loginUser.teamCode).then(team => {
       _this.team = team
+      _this.$store.commit('team', team)
       return api.queryTeamMembers(_this.loginUser.teamCode)
     }).then( members => {
       _this.members = members.items
       let member = _this.getMember(_this.loginUser.code)
       this.myIndex = member.orderIndex - 1
       member.isOnline = true
-      member.isOpen = true
       this.client.init('0cd0b77c887f48c5911eef9bbcf28b4a', () => {
         console.log("AgoraRTC client initialized")
         _this.client.join(null, _this.loginUser.teamCode, _this.loginUser.code, (usrCode) => {
@@ -102,7 +122,9 @@ export default {
             })
           _this.members[_this.myIndex].stream.init(() => {
             _this.members[_this.myIndex].stream.play(_this.loginUser.code, {fit: 'cover'}, err => {
+              fixDomCss(_this.loginUser.code)
               console.log(err)
+              _this.$set(_this.members[_this.myIndex], 'isOpen', true)
             })
             _this.client.publish(_this.members[_this.myIndex].stream, err => {
               console.log("Publish local stream error: " + err);
@@ -125,13 +147,18 @@ export default {
         }
       }
     },
-    open (member) {
+    switchShow (member) {
       if ((member.orderIndex - 1)  !== this.myIndex) {
         return
       }
       if (member.isOpen) {
+        member.isOpen = false
         this.$set(member, 'isChanging', true)
-        member.stream.play(member.code)
+        member.stream.play(member.code, {fit: 'cover'}, err => {
+          fixDomCss(member.code)
+          console.log(err)
+          member.isOpen = true
+        })
         this.client.publish(member.stream)
         setTimeout(() => {
           member.isChanging = false
