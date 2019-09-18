@@ -23,7 +23,7 @@
         </el-card>
       </el-col>
     </el-row>
-    <canvas id='pic' style="width:200px;height:200px;display:none;"/>
+    <canvas id='pic' style="width:200px;height:200px;"/>
     <el-input type="textarea" :rows="2" v-model="imgData" />
     <el-input type="textarea" :rows="2" v-model="para" />
   </div>
@@ -70,7 +70,9 @@ export default {
     _this.client.on("stream-subscribed", function(evt) {
       var stream = evt.stream
       let member = _this.getMember(stream.getId())
-      member.stream.play(member.code)
+      member.stream.play(member.code, {fit: 'cover'}, err => {
+        console.log(err)
+      })
       _this.$set(member, 'isOpen', true)
     })
     _this.client.on("stream-removed", function(evt) {
@@ -99,7 +101,9 @@ export default {
             screen: false
             })
           _this.members[_this.myIndex].stream.init(() => {
-            _this.members[_this.myIndex].stream.play(_this.loginUser.code)
+            _this.members[_this.myIndex].stream.play(_this.loginUser.code, {fit: 'cover'}, err => {
+              console.log(err)
+            })
             _this.client.publish(_this.members[_this.myIndex].stream, err => {
               console.log("Publish local stream error: " + err);
             })
@@ -162,6 +166,7 @@ export default {
 </script>
 <style scoped>
 .image {
+  margin: 0 auto;
   width: 128px;
   height: 128px;
 }

@@ -5,7 +5,7 @@
         <img alt="Vue logo" src="../assets/background.jpg" width="90%;">
       </el-col>
       <el-col :span="6">
-        <p style="margin:100px 0px 100px 0px;">云悠工作室是一个远程虚拟办公环境<br>致力于解决团队远程合作的考勤与沟通问题。</p>
+        <p style="margin:100px 0px 100px 0px;">办公小室是一个远程虚拟办公环境<br>致力于解决团队远程合作的考勤与沟通问题。</p>
         <p>
           <el-input
             v-model="user.loginName"

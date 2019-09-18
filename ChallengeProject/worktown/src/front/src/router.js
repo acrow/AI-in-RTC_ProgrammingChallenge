@@ -6,7 +6,7 @@ import Login from './views/Login.vue'
 import Regist from './views/Regist.vue'
 import Profile from './views/Profile.vue'
 import Office from './views/Office.vue'
-import Report from './views/Report.vue'
+// import Report from './views/Report.vue'
 
 Vue.use(Router)
 
@@ -51,26 +51,26 @@ let router = new Router({
       meta: {
         requiresAuth: true
       }
-    },
-    {
-      path: '/report',
-      name: 'report',
-      component: Report,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
-      meta: {
-        requiresAuth: true
-      }
-    }
+    }//,
+    // {
+    //   path: '/report',
+    //   name: 'report',
+    //   component: Report,
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
+    // {
+    //   path: '/about',
+    //   name: 'about',
+    //   // route level code-splitting
+    //   // this generates a separate chunk (about.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // }
   ]
 })
 
@@ -80,7 +80,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next({
-        path: '/login',
+        path: '/',
         query: {redirect: to.fullPath}
       })
     }
