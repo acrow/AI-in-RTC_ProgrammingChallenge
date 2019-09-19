@@ -163,10 +163,10 @@ export default {
     if (this.loginUser.teamCode) {
       api.getTeam(this.loginUser.teamCode).then( team => {
         if (team) {
-            _this.team = team
+          _this.team = team
+          return api.queryTeamMembers(team.code)
         }
-        return api.queryTeamMembers(team.code)
-        }).then( members => {
+      }).then( members => {
         _this.members = members.items
       })
     }

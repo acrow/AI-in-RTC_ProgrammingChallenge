@@ -26,26 +26,46 @@ const GetDefaultResult = function (obj, forceObj) {
   }
 }
 
+const GetErrResult = function (msg) {
+  return {
+    code: 1,
+    message: msg,
+    context: null
+  }
+}
+
 // ************************** 用户 ************************** /
 let members = [
-  {username: 'u1', password: '1', code: '0001', name: '郭德纲', teamCode: 'dys', orderIndex: 1},
-  {username: 'u2', password: '1', code: '0002', name: '于谦', teamCode: 'dys', orderIndex: 2},
-  {username: 'u3', password: '1', code: '0003', name: '岳云鹏', teamCode: 'dys', orderIndex: 3},
-  {username: 'u4', password: '1', code: '0004', name: '孙越', teamCode: 'dys', orderIndex: 4},
-  {username: 'u5', password: '1', code: '0005', name: '郭麒麟', teamCode: 'dys', orderIndex: 5},
-  {username: 'u6', password: '1', code: '0006', name: '曹云金', teamCode: 'dys', orderIndex: 6},
-  {username: 'u7', password: '1', code: '0007', name: '路人甲', teamCode: null, orderIndex: 1}
+  {userName: 'u1', password: '1', code: '0001', name: '郭德纲', teamCode: 'dys', orderIndex: 1},
+  {userName: 'u2', password: '1', code: '0002', name: '于谦', teamCode: 'dys', orderIndex: 2},
+  {userName: 'u3', password: '1', code: '0003', name: '岳云鹏', teamCode: 'dys', orderIndex: 3},
+  {userName: 'u4', password: '1', code: '0004', name: '孙越', teamCode: 'dys', orderIndex: 4},
+  {userName: 'u5', password: '1', code: '0005', name: '郭麒麟', teamCode: 'dys', orderIndex: 5},
+  {userName: 'u6', password: '1', code: '0006', name: '曹云金', teamCode: 'dys', orderIndex: 6},
+  {userName: 'u7', password: '1', code: '0007', name: '路人甲', teamCode: null, orderIndex: 1}
 ]
-// const getMembers = function (para) {
-//   console.log(para)
-//   return GetDefaultResult(members)
-// }
+const getMembers = function (para) {
+  console.log(para)
+  let userName = /\?userName=(.*)/i.exec(para.url)[1]
+  if (userName) {
+    let rst = []
+    for (let i = 0; i < members.length; i++) {
+      const member = members[i];
+      if (member.userName === userName) {
+        rst.push(member)
+      }
+    }
+    return GetDefaultResult(rst)
+  }
+  return GetDefaultResult(members)
+}
 const getMember = function (para) {
   let code = para.url.split('/')[3]
   if (!code && para.body) {
     let newMem = JSON.parse(para.body)
+    newMem.code = Random.id()
     members.push(newMem)
-    return newMem
+    return GetDefaultResult(newMem)
   }
   for (let i = 0; i < members.length; i++) {
     const member = members[i]
@@ -63,7 +83,19 @@ const getMember = function (para) {
 let currentUser = {}
 const login = function (para) {
   currentUser = JSON.parse(para.body)
-  return GetDefaultResult('eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySW5mbyI6eyJsb2dpbk5hbWUiOiJkb2N0b3IxIiwicGFzc3dvcmQiOiIqIiwiZGlzcGxheU5hbWUiOiLnrqHnkIblkZgiLCJlbmFibGVkIjp0cnVlLCJ1c2VyVHlwZURpY3QiOiIxIiwidHlwZUNvZGUiOiIwN0UxQThBNjVEMDhBRTcwIiwic3JjVXNlciI6eyJpZCI6MTIsImNvZGUiOiIwN0UxQThBNjVEMDhBRTcwIiwibmFtZSI6IueuoeeQhuWRmCIsInBvc2l0aW9uRGljdCI6IjIzMSIsImhvc3BpdGFsQ29kZSI6IkU1MkUzMzZFQjg2QkY4QTQiLCJob3NwaXRhbE5hbWUiOiLnpZ7lqIHmtYvor5XljLvpmaIyIiwiZGVwdENvZGUiOiIwNCIsImRlcHROYW1lIjoi5aSW56eRIn19LCJleHAiOjE1NjcxNzMxNjZ9.V1kgubvMJhz4douKbDgKqOiDPHSPvSExSF24sLv423Q')
+  let success = false
+  for (let i = 0; i < members.length; i++) {
+    const member = members[i];
+    if (member.userName === currentUser.loginName && member.password === currentUser.password) {
+      success = true
+      break
+    }
+  }
+  if (success) {
+    return GetDefaultResult('eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySW5mbyI6eyJsb2dpbk5hbWUiOiJkb2N0b3IxIiwicGFzc3dvcmQiOiIqIiwiZGlzcGxheU5hbWUiOiLnrqHnkIblkZgiLCJlbmFibGVkIjp0cnVlLCJ1c2VyVHlwZURpY3QiOiIxIiwidHlwZUNvZGUiOiIwN0UxQThBNjVEMDhBRTcwIiwic3JjVXNlciI6eyJpZCI6MTIsImNvZGUiOiIwN0UxQThBNjVEMDhBRTcwIiwibmFtZSI6IueuoeeQhuWRmCIsInBvc2l0aW9uRGljdCI6IjIzMSIsImhvc3BpdGFsQ29kZSI6IkU1MkUzMzZFQjg2QkY4QTQiLCJob3NwaXRhbE5hbWUiOiLnpZ7lqIHmtYvor5XljLvpmaIyIiwiZGVwdENvZGUiOiIwNCIsImRlcHROYW1lIjoi5aSW56eRIn19LCJleHAiOjE1NjcxNzMxNjZ9.V1kgubvMJhz4douKbDgKqOiDPHSPvSExSF24sLv423Q')
+  } else {
+    return GetErrResult('用户名或密码错误！')
+  }
 }
 const token = function (para) {
   console.log(para)
@@ -72,7 +104,7 @@ const token = function (para) {
 const GetCurrentUser = function () {
   for (let i = 0; i < members.length; i++) {
     const member = members[i]
-    if (member.username === currentUser.loginName) {
+    if (member.userName === currentUser.loginName) {
       return GetDefaultResult(member)
     }
   }
@@ -169,7 +201,7 @@ const proxy = function (para) {
 
 // ************************** 方法匹配 ************************** /
 // Mock.mock( url, post/get , 返回的数据)；
-// Mock.mock(/\/api\/member$/, 'get', getMembers)
+Mock.mock(/\/api\/member\?.*/, 'get', getMembers)
 Mock.mock(/\/api\/member\/.*?$/, 'get', getMember)
 Mock.mock(/\/api\/member$/, 'post', getMember)
 Mock.mock(/\/api\/member\/.*?$/, 'put', getMember)

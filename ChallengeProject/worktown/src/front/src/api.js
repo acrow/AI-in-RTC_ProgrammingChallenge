@@ -84,7 +84,7 @@ export function get (url, params) {
       }
     }).then(response => {
       if (response.data.code === 0) {
-        if (response.data.context.index || response.data.context.index === 0) {
+        if (response.data.context && (response.data.context.index || response.data.context.index === 0)) {
           response.data.context.index += 1
         }
         resolve(response.data.context)
