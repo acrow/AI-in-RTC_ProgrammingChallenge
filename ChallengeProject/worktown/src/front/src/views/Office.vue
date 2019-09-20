@@ -183,9 +183,12 @@ export default {
         this.imgData = pic.toDataURL("image/png")
         let tm = Math.round(new Date()).toString().substr(0, 10)
         this.imgData = encodeURI('?app_id=2121189674&time_stamp=' + tm + '&nonce_str=123&group_ids=dys&person_id=0001&person_name=郭德纲&tag=无&image=' + this.imgData.substring(22))
+        // this.imgData = encodeURI('?app_id=2121189674&time_stamp=' + tm + '&nonce_str=123&group_id=dys')
+        console.log(this.imgData)
       }
       api.proxy(this.imgData).then( rst=> {
         this.para = rst.sign
+        console.log(rst.sign)
       })
     }
   }

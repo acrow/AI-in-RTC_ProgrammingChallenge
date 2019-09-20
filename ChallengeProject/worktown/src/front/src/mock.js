@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import md5 from 'js-md5'
+
 // 引入mockjs
 const Mock = require('mockjs')
 // 获取 mock.Random 对象
@@ -25,7 +27,6 @@ const GetDefaultResult = function (obj, forceObj) {
     context: rst
   }
 }
-
 const GetErrResult = function (msg) {
   return {
     code: 1,
@@ -105,7 +106,7 @@ const GetCurrentUser = function () {
   for (let i = 0; i < members.length; i++) {
     const member = members[i]
     if (member.userName === currentUser.loginName) {
-      return GetDefaultResult(member)
+        return GetDefaultResult(member)
     }
   }
   return GetDefaultResult({
