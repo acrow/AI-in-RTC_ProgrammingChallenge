@@ -8,8 +8,8 @@ import socket from './socket'
 import App from './App.vue'
 
 Vue.config.productionTip = false
-// 引入mockjs
-require('./mock.js')
+// // 引入mockjs
+// require('./mock.js')
 
 Vue.use(bus)
 
