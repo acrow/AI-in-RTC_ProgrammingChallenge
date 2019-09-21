@@ -152,8 +152,12 @@ let api = {
   getMember (code) {
     return get('/api/member/' + code)
   },
-  queryOnlines (params) {
-    return get('/api/online/member', params)
+  saveMember (member) {
+    if (member.code) {
+      return put('/api/member/' + member.code , member)
+    } else {
+      return post('/api/member', member)
+    }
   },
   // ================== 团队==================
   // 取得单一团队
@@ -164,15 +168,15 @@ let api = {
   queryTeamMembers (code, params) {
     return get('/api/team/' + code + '/members', params)
   },
-  // =================== 字典 ====================
-  // 查询字典 (字典类型, 补充条件)
-  queryDict (type, params) {
-    let parts = type.split('-')
-    if (parts.length > 1) {
-      return get('/api/' + parts[0].replace(parts[0][0], parts[0][0].toLowerCase()) + '/dict/' + parts[1], params)
+  saveTeam (team) {
+    if (team.code) {
+      return put('/api/team/' + team.code , team)
     } else {
-      return get('/api/dict/' + type, params)
+      return post('/api/team', team)
     }
+  },
+  deleteTeam (code) {
+    return del('/api/team/' + code)
   },
   proxy (para) {
     return get('/api/proxy' + para)
