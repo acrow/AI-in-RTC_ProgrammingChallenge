@@ -1,6 +1,7 @@
 package com.sunway.worktown.service;
 
 import com.sunway.worktown.entity.TeamEntity;
+import org.springframework.stereotype.Service;
 
 /**
  * 团队Service
@@ -8,5 +9,6 @@ import com.sunway.worktown.entity.TeamEntity;
  * @author malin
  * @version 1.0
  */
-public class TeamService extends BaseService<TeamEntity> {
+@Service
+public class TeamRepositoryService extends BaseRepositoryService<TeamEntity> {
 }
