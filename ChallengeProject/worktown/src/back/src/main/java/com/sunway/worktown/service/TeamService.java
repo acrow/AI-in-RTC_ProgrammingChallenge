@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-public class TeamRepositoryService extends BaseRepositoryService<TeamEntity> {
+public class TeamService extends BaseRepositoryService<TeamEntity> {
 }

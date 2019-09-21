@@ -88,7 +88,11 @@ public class ErrorHandler {
             } else if (ex instanceof HttpServerErrorException) {
                 message = getHttpServerErrorExceptionMessage((HttpServerErrorException) ex);
             } else if (ex instanceof CommonException) {
-                message = String.format(COMMON_ERROR_MESSAGE, ex.getMessage(), ex.getCause());
+                if (ex.getCause() == null) {
+                    message = ex.getMessage();
+                } else {
+                    message = String.format(COMMON_ERROR_MESSAGE, ex.getMessage(), ex.getCause());
+                }
             } else if (ex instanceof MethodArgumentNotValidException) {
                 message = getMethodArgumentNotValidExceptionMessage((MethodArgumentNotValidException) ex);
             } else {
