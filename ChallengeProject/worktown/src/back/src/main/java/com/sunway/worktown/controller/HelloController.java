@@ -26,7 +26,7 @@ import java.util.*;
 import static com.sunway.worktown.util.EncryptUtils.getMD5;
 
 @RestController
-public class HelloController {
+public class HelloController extends BaseController {
 
     @PostMapping("/hello")
     public String proxyTxFR(@RequestBody TxFRInModel inModel) throws IOException, NoSuchAlgorithmException {
