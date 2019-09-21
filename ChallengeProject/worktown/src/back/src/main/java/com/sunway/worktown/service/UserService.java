@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-public class UserRepositoryService extends BaseRepositoryService<UserEntity> {
+public class UserService extends BaseRepositoryService<UserEntity> {
 
     /**
      * 根据登录名取得用户信息

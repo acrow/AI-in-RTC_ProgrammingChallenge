@@ -4,7 +4,7 @@ import com.sunway.worktown.config.WorktownProperties;
 import com.sunway.worktown.entity.UserEntity;
 import com.sunway.worktown.model.LoginInModel;
 import com.sunway.worktown.model.ResultModel;
-import com.sunway.worktown.service.LoginRepositoryService;
+import com.sunway.worktown.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -28,7 +28,7 @@ public class LoginController extends BaseController {
      * 登录Service
      */
     @Autowired
-    private LoginRepositoryService loginService;
+    private LoginService loginService;
 
     /**
      * 登录

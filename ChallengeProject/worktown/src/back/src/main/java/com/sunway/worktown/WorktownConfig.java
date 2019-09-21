@@ -1,16 +1,21 @@
 package com.sunway.worktown;
 
 import com.sunway.worktown.exception.ErrorMessageHandler;
+import com.sunway.worktown.interceptor.AuthorizationInterceptor;
 import com.sunway.worktown.model.ResultModel;
 import com.sunway.worktown.util.AuthorizationUtil;
 import com.sunway.worktown.util.UserUtil;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -28,7 +33,15 @@ import java.util.Arrays;
  * @version 1.0
  */
 @Component
-public class WorktownConfig {
+public class WorktownConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(applicationContext.getBean(AuthorizationInterceptor.class)).addPathPatterns("/**");
+    }
 
     @Bean
     ErrorMessageHandler errorMessageHandler() {

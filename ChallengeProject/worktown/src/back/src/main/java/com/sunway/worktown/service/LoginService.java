@@ -17,7 +17,7 @@ import java.util.Objects;
  * @version 1.0
  */
 @Service
-public class LoginRepositoryService extends BaseService {
+public class LoginService extends BaseService {
 
     /**
      * 授权认证工具
@@ -35,7 +35,7 @@ public class LoginRepositoryService extends BaseService {
      * 用户Service
      */
     @Autowired
-    private UserRepositoryService userService;
+    private UserService userService;
 
     /**
      * 登录

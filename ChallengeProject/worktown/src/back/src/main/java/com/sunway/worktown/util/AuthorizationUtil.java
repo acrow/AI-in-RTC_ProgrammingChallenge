@@ -9,6 +9,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -160,7 +161,15 @@ public class AuthorizationUtil {
      * @return 是否需要验证（true：需要、false：不需要）
      */
     public boolean isNeedVerify() {
-        return !notVerifyUrlSet.contains(httpServletRequest.getRequestURI());
+        if (notVerifyUrlSet.contains(httpServletRequest.getRequestURI())) {
+            return false;
+        }
+
+        if (StringUtils.containsIgnoreCase(httpServletRequest.getRequestURI(), "swagger")) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
