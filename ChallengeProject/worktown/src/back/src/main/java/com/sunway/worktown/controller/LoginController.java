@@ -1,7 +1,7 @@
 package com.sunway.worktown.controller;
 
 import com.sunway.worktown.config.WorktownProperties;
-import com.sunway.worktown.entity.UserEntity;
+import com.sunway.worktown.entity.MemberEntity;
 import com.sunway.worktown.model.LoginInModel;
 import com.sunway.worktown.model.ResultModel;
 import com.sunway.worktown.service.LoginService;
@@ -50,7 +50,7 @@ public class LoginController extends BaseController {
      */
     @GetMapping("/currentUser")
     @ApiOperation(value = "取得用户信息")
-    public ResultModel<UserEntity> getUserInfo() {
+    public ResultModel<MemberEntity> getUserInfo() {
         return ResultModel.normal(loginService.getUserInfo());
     }
 

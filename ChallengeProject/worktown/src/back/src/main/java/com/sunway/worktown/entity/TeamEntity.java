@@ -1,6 +1,5 @@
 package com.sunway.worktown.entity;
 
-import com.sunway.worktown.annotation.Unique;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -26,29 +25,26 @@ public class TeamEntity extends BaseEntity {
     private final static long serialVersionUID = -1740361593280251642L;
 
     /**
-     * 编码
-     */
-    @Unique(name = "编码")
-    @NotBlank(message = "code不能为空！")
-    @Column(name = "code", nullable = false, length = 64)
-    @ApiModelProperty(value = "编码")
-    private String code;
-
-    /**
      * 名称
      */
     @NotBlank(message = "name不能为空！")
-    @Column(name = "name", nullable = false, length = 64)
+    @Column(name = "name", nullable = false, length = 20)
     @ApiModelProperty(value = "名称")
     private String name;
 
-    public String getCode() {
-        return code;
-    }
+    /**
+     * 描述
+     */
+    @Column(name = "description", length = 100)
+    @ApiModelProperty(value = "描述")
+    private String desc;
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+    /**
+     * 创建人编码
+     */
+    @Column(name = "creator", length = 64)
+    @ApiModelProperty(value = "创建人编码")
+    private String creator;
 
     public String getName() {
         return name;
@@ -56,5 +52,21 @@ public class TeamEntity extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 }

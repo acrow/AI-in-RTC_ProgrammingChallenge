@@ -1,7 +1,7 @@
 package com.sunway.worktown.service;
 
 import com.sunway.worktown.config.WorktownProperties;
-import com.sunway.worktown.entity.UserEntity;
+import com.sunway.worktown.entity.MemberEntity;
 import com.sunway.worktown.exception.CommonException;
 import com.sunway.worktown.model.LoginInModel;
 import com.sunway.worktown.util.AuthorizationUtil;
@@ -26,7 +26,7 @@ public class LoginService extends BaseService {
     private AuthorizationUtil authorizationUtil;
 
     /**
-     * RTS配置信息
+     * 配置信息
      */
     @Autowired
     private WorktownProperties worktownProperties;
@@ -35,7 +35,7 @@ public class LoginService extends BaseService {
      * 用户Service
      */
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
 
     /**
      * 登录
@@ -45,21 +45,21 @@ public class LoginService extends BaseService {
      */
     public String login(LoginInModel info) {
         // 取得用户信息
-        UserEntity user = userService.getOneByLoginName(info.getLoginName());
+        MemberEntity member = memberService.getOneByLoginName(info.getLoginName());
 
         // 验证用户是否存在
-        if (Objects.isNull(user)) {
+        if (Objects.isNull(member)) {
             throw new CommonException("用户不存在！");
         }
 
         // 验证密码
-        if (!user.getPassword().equals(info.getPassword())) {
+        if (!member.getPassword().equals(info.getPassword())) {
             throw new CommonException("用户名或密码错误！");
         }
 
         // 发行TOKEN信息
-        user.setPassword("*");
-        return authorizationUtil.issueToken(user);
+        member.setPassword("*");
+        return authorizationUtil.issueToken(member);
     }
 
     /**
@@ -67,7 +67,7 @@ public class LoginService extends BaseService {
      *
      * @return 用户信息
      */
-    public UserEntity getUserInfo() {
+    public MemberEntity getUserInfo() {
         return authorizationUtil.getUserInfo();
     }
 

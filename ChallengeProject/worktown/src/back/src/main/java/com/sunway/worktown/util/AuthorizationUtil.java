@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sunway.worktown.bean.CurrentUserInfo;
 import com.sunway.worktown.config.WorktownProperties;
-import com.sunway.worktown.entity.UserEntity;
+import com.sunway.worktown.entity.MemberEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -90,7 +90,9 @@ public class AuthorizationUtil {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         notVerifyUrlSet = new HashSet<>();
         notVerifyUrlSet.add("/login");
-        notVerifyUrlSet.add("/proxy/tencent");
+        notVerifyUrlSet.add("/member");
+//        notVerifyUrlSet.add("/proxy/tencent");
+        notVerifyUrlSet.add("/proxy/login");
         notVerifyUrlSet.add("/error");
     }
 
@@ -108,7 +110,7 @@ public class AuthorizationUtil {
      * @param userInfo 用户信息
      * @return TOKEN信息
      */
-    public String issueToken(UserEntity userInfo) {
+    public String issueToken(MemberEntity userInfo) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         Date expireDate = new Date(System.currentTimeMillis() + timeout);
         JwtBuilder builder = Jwts.builder()
@@ -135,7 +137,7 @@ public class AuthorizationUtil {
 
             // 取得用户信息并保存
             String json = objectMapper.writeValueAsString(claims.get(USER_CLAIM_KEY));
-            UserEntity user = objectMapper.readValue(json, UserEntity.class);
+            MemberEntity user = objectMapper.readValue(json, MemberEntity.class);
             httpServletRequest.setAttribute(REQUEST_ATTRIBUTE_KEY_USER_INFO, user);
 
             // 取得当前用户信息并保存
@@ -189,8 +191,8 @@ public class AuthorizationUtil {
      *
      * @return 用户信息
      */
-    public UserEntity getUserInfo() {
-        return (UserEntity) httpServletRequest.getAttribute(REQUEST_ATTRIBUTE_KEY_USER_INFO);
+    public MemberEntity getUserInfo() {
+        return (MemberEntity) httpServletRequest.getAttribute(REQUEST_ATTRIBUTE_KEY_USER_INFO);
     }
 
     /**

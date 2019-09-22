@@ -1,6 +1,6 @@
 package com.sunway.worktown.repository;
 
-import com.sunway.worktown.entity.UserEntity;
+import com.sunway.worktown.entity.MemberEntity;
 
 /**
  * 用户数据仓库
@@ -8,5 +8,5 @@ import com.sunway.worktown.entity.UserEntity;
  * @author malin
  * @version 1.0
  */
-public interface UserRepository extends BaseRepository<UserEntity> {
+public interface UserRepository extends BaseRepository<MemberEntity> {
 }

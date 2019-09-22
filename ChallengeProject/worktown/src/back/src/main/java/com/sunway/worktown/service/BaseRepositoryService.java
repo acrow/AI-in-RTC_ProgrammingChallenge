@@ -31,7 +31,7 @@ import java.util.Optional;
  * @version 1.0
  */
 @Slf4j
-public abstract class BaseRepositoryService<T extends BaseEntity> extends BaseService {
+public class BaseRepositoryService<T extends BaseEntity> extends BaseService {
 
     /**
      * 基础仓库
@@ -122,6 +122,23 @@ public abstract class BaseRepositoryService<T extends BaseEntity> extends BaseSe
         return repository.findById(id).orElse(null);
     }
 
+
+    /**
+     * 根据I编码取得实体信息
+     *
+     * @param code 编码
+     * @return 实体信息
+     */
+    public T getByCode(String code) {
+        Assert.notNull(code, "根据编码取得信息时，编码不能为空");
+        // 设置查询条件
+        Specification<T> spec = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.<String>get("code"), code);
+
+        // 查询
+        return repository.findOne(spec).orElse(null);
+    }
+
+
     /**
      * 执行分页查询
      *
@@ -191,6 +208,8 @@ public abstract class BaseRepositoryService<T extends BaseEntity> extends BaseSe
                             FieldUtils.readField(field, entity, true)));
                 } catch (IllegalAccessException e) {
                     throw new CommonException(String.format("读取信息时出错！[%s][%s]", entity.getClass(), field.getName()), e);
+                } catch (Exception ex) {
+                    String msg = ex.getMessage();
                 }
                 if (entity.getId() != null) {
                     predicateList.add(criteriaBuilder.notEqual(root.get("id"), entity.getId()));

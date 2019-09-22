@@ -17,9 +17,9 @@ import javax.validation.constraints.NotNull;
  * @version 1.0
  */
 @Entity
-@Table(name = "user")
+@Table(name = "member")
 @ApiModel(value = "用户信息")
-public class UserEntity extends BaseEntity {
+public class MemberEntity extends BaseEntity {
 
     /**
      * serialVersionUID
@@ -27,20 +27,11 @@ public class UserEntity extends BaseEntity {
     private final static long serialVersionUID = -6168171687410896338L;
 
     /**
-     * 编码
-     */
-    @Unique(name = "编码")
-    @NotBlank(message = "code不能为空！")
-    @Column(name = "code", nullable = false, length = 64)
-    @ApiModelProperty(value = "编码")
-    private String code;
-
-    /**
      * 登录名
      */
     @Unique(name = "登录名")
     @NotBlank(message = "loginName不能为空！")
-    @Column(name = "login_name", nullable = false, length = 64)
+    @Column(name = "login_name", nullable = false, length = 20)
     @ApiModelProperty(value = "登录名")
     private String loginName;
 
@@ -48,7 +39,7 @@ public class UserEntity extends BaseEntity {
      * 密码
      */
     @NotBlank(message = "password不能为空！")
-    @Column(name = "password", nullable = false, length = 64)
+    @Column(name = "password", nullable = false, length = 20)
     @ApiModelProperty(value = "密码")
     private String password;
 
@@ -56,15 +47,14 @@ public class UserEntity extends BaseEntity {
      * 显示名
      */
     @NotBlank(message = "name不能为空！")
-    @Column(name = "name", nullable = false, length = 64)
+    @Column(name = "name", nullable = false, length = 20)
     @ApiModelProperty(value = "显示名")
     private String name;
 
     /**
      * 团队编码
      */
-    @NotNull(message = "teamCode不能为空！")
-    @Column(name = "team_code", nullable = false, length = 64)
+    @Column(name = "team_code", length = 64)
     @ApiModelProperty(value = "团队编码")
     private String teamCode;
 
@@ -75,13 +65,6 @@ public class UserEntity extends BaseEntity {
     @ApiModelProperty(value = "团队中的位置")
     private Integer orderIndex;
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getLoginName() {
         return loginName;
