@@ -90,6 +90,8 @@ public class AuthorizationUtil {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         notVerifyUrlSet = new HashSet<>();
         notVerifyUrlSet.add("/login");
+        notVerifyUrlSet.add("/proxy/tencent");
+        notVerifyUrlSet.add("/error");
     }
 
     /**

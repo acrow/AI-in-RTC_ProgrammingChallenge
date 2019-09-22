@@ -3,11 +3,11 @@ package com.sunway.worktown.model;
 import java.io.Serializable;
 import java.util.Map;
 
-public class TxFRInModel implements Serializable {
+public class TencentApiModel implements Serializable {
 
     String url;
 
-    Map<String, String> reqParas;
+    Map<String, String> paras;
 
     /**
      * Gets the value of url.
@@ -34,18 +34,18 @@ public class TxFRInModel implements Serializable {
      *
      * @return the value of reqParas
      */
-    public Map<String, String> getReqParas() {
-        return reqParas;
+    public Map<String, String> getParas() {
+        return paras;
     }
 
     /**
-     * Sets the reqParas.
+     * Sets the paras.
      *
      * <p>You can use getReqParas() to get the value of reqParas</p>
      *
-     * @param reqParas reqParas
+     * @param paras reqParas
      */
-    public void setReqParas(Map<String, String> reqParas) {
-        this.reqParas = reqParas;
+    public void setParas(Map<String, String> paras) {
+        this.paras = paras;
     }
 }
