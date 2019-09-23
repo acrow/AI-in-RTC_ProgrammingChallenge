@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * 用户信息
@@ -30,25 +29,25 @@ public class MemberEntity extends BaseEntity {
      * 登录名
      */
     @Unique(name = "登录名")
-    @NotBlank(message = "loginName不能为空！")
-    @Column(name = "login_name", nullable = false, length = 20)
+    @NotBlank(message = "userName不能为空！")
+    @Column(name = "user_name", nullable = false, length = 20)
     @ApiModelProperty(value = "登录名")
-    private String loginName;
+    private String userName;
 
     /**
      * 密码
      */
     @NotBlank(message = "password不能为空！")
-    @Column(name = "password", nullable = false, length = 20)
+    @Column(name = "password", nullable = false, length = 10)
     @ApiModelProperty(value = "密码")
     private String password;
 
     /**
-     * 显示名
+     * 姓名
      */
     @NotBlank(message = "name不能为空！")
-    @Column(name = "name", nullable = false, length = 20)
-    @ApiModelProperty(value = "显示名")
+    @Column(name = "name", nullable = false, length = 10)
+    @ApiModelProperty(value = "姓名")
     private String name;
 
     /**
@@ -65,13 +64,12 @@ public class MemberEntity extends BaseEntity {
     @ApiModelProperty(value = "团队中的位置")
     private Integer orderIndex;
 
-
-    public String getLoginName() {
-        return loginName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

@@ -23,15 +23,16 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
- * 基础Service
+ * 基础仓库Service
  *
  * @author malin
  * @version 1.0
  */
 @Slf4j
-public class BaseRepositoryService<T extends BaseEntity> extends BaseService {
+public abstract class BaseRepositoryService<T extends BaseEntity> extends BaseService {
 
     /**
      * 基础仓库
@@ -61,10 +62,17 @@ public class BaseRepositoryService<T extends BaseEntity> extends BaseService {
      * @return 实体信息
      */
     public T add(T entity) {
-        Assert.isNull(entity.getId(), "添加信息时，ID必须为空");
+        Assert.isNull(entity.getCode(), "添加信息时，编码必须为空");
 
         // 判断是否信息唯一
         checkInfoUnique(entity);
+
+        // 生成编码
+        T existEntity;
+        do {
+            entity.setCode(UUID.randomUUID().toString().split("-")[0]);
+            existEntity = repository.findById(entity.getCode()).orElse(null);
+        } while (existEntity != null);
 
         // 设置共通项目
 //        CurrentUserInfo userInfo = getCurrentUser();
@@ -86,7 +94,7 @@ public class BaseRepositoryService<T extends BaseEntity> extends BaseService {
      * @return 实体信息
      */
     public T modify(T entity) {
-        Assert.notNull(entity.getId(), "修改信息时，ID不能为空");
+        Assert.notNull(entity.getCode(), "修改信息时，编码不能为空");
 
         // 判断是否信息唯一
         checkInfoUnique(entity);
@@ -104,40 +112,23 @@ public class BaseRepositoryService<T extends BaseEntity> extends BaseService {
     /**
      * 删除信息
      *
-     * @param id ID
+     * @param code 编码
      */
-    public void delete(Long id) {
-        Assert.notNull(id, "删除信息时，ID不能为空");
-        repository.deleteById(id);
+    public void delete(String code) {
+        Assert.notNull(code, "删除信息时，编码不能为空");
+        repository.deleteById(code);
     }
 
     /**
-     * 根据ID取得实体信息
-     *
-     * @param id ID
-     * @return 实体信息
-     */
-    public T getById(Long id) {
-        Assert.notNull(id, "根据ID取得信息时，ID不能为空");
-        return repository.findById(id).orElse(null);
-    }
-
-
-    /**
-     * 根据I编码取得实体信息
+     * 根据编码取得实体信息
      *
      * @param code 编码
      * @return 实体信息
      */
     public T getByCode(String code) {
         Assert.notNull(code, "根据编码取得信息时，编码不能为空");
-        // 设置查询条件
-        Specification<T> spec = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.<String>get("code"), code);
-
-        // 查询
-        return repository.findOne(spec).orElse(null);
+        return repository.findById(code).orElse(null);
     }
-
 
     /**
      * 执行分页查询
@@ -211,8 +202,8 @@ public class BaseRepositoryService<T extends BaseEntity> extends BaseService {
                 } catch (Exception ex) {
                     String msg = ex.getMessage();
                 }
-                if (entity.getId() != null) {
-                    predicateList.add(criteriaBuilder.notEqual(root.get("id"), entity.getId()));
+                if (entity.getCode() != null) {
+                    predicateList.add(criteriaBuilder.notEqual(root.get("code"), entity.getCode()));
                 }
 
                 return predicateList.isEmpty() ? null : criteriaBuilder.and(predicateList.toArray(new Predicate[0]));

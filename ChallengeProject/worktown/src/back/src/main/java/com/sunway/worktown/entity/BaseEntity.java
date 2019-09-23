@@ -1,10 +1,10 @@
 package com.sunway.worktown.entity;
 
-import com.sunway.worktown.annotation.Unique;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -18,27 +18,9 @@ import java.util.UUID;
 public abstract class BaseEntity implements Serializable {
 
     /**
-     * ID
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    @ApiModelProperty(value = "ID")
-    private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
      * 编码
      */
-    @Unique(name = "编码")
-    @NotBlank(message = "code不能为空！")
+    @Id
     @Column(name = "code", nullable = false, length = 64)
     @ApiModelProperty(value = "编码")
     private String code = UUID.randomUUID().toString().split("-")[0];

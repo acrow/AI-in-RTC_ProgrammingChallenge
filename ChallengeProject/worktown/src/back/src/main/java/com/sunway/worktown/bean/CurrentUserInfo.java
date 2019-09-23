@@ -9,17 +9,17 @@ package com.sunway.worktown.bean;
 public class CurrentUserInfo {
 
     /**
+     * 登录名
+     */
+    private String userName;
+
+    /**
      * 编码
      */
     private String code;
 
     /**
-     * 登录名
-     */
-    private String loginName;
-
-    /**
-     * 显示名
+     * 姓名
      */
     private String name;
 
@@ -33,20 +33,20 @@ public class CurrentUserInfo {
      */
     private Integer orderIndex;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getCode() {
         return code;
     }
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
     }
 
     public String getName() {
