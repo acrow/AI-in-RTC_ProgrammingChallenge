@@ -90,10 +90,6 @@ public class AuthorizationUtil {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         notVerifyUrlSet = new HashSet<>();
         notVerifyUrlSet.add("/login");
-        notVerifyUrlSet.add("/member");
-//        notVerifyUrlSet.add("/proxy/tencent");
-        notVerifyUrlSet.add("/proxy/login");
-        notVerifyUrlSet.add("/error");
     }
 
     /**
@@ -143,7 +139,7 @@ public class AuthorizationUtil {
             // 取得当前用户信息并保存
             CurrentUserInfo currentUserInfo = new CurrentUserInfo();
             currentUserInfo.setCode(user.getCode());
-            currentUserInfo.setLoginName(user.getLoginName());
+            currentUserInfo.setUserName(user.getUserName());
             currentUserInfo.setName(user.getName());
             currentUserInfo.setTeamCode(user.getTeamCode());
             currentUserInfo.setOrderIndex(user.getOrderIndex());

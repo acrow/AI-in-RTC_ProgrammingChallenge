@@ -23,6 +23,21 @@ public class TeamService extends BaseRepositoryService<TeamEntity> {
     @Autowired
     private MemberService memberService;
 
+    @Override
+    public void delete(String code) {
+        // 删除团队信息
+        super.delete(code);
+
+        // 更新用户信息
+        TeamMemberSearchInModel searchInfo = new TeamMemberSearchInModel();
+        searchInfo.setTeamCode(code);
+        searchMembers(searchInfo).getItems().forEach(member -> {
+            member.setTeamCode(null);
+            member.setOrderIndex(null);
+            memberService.modify(member);
+        });
+    }
+
     /**
      * 查询团队成员
      *

@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * 基础实体信息
@@ -23,7 +22,7 @@ public abstract class BaseEntity implements Serializable {
     @Id
     @Column(name = "code", nullable = false, length = 64)
     @ApiModelProperty(value = "编码")
-    private String code = UUID.randomUUID().toString().split("-")[0];
+    private String code;
 
     public String getCode() {
         return code;

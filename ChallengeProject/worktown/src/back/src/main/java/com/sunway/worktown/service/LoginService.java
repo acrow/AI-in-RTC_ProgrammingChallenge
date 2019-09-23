@@ -45,7 +45,7 @@ public class LoginService extends BaseService {
      */
     public String login(LoginInModel info) {
         // 取得用户信息
-        MemberEntity member = memberService.getOneByLoginName(info.getLoginName());
+        MemberEntity member = memberService.getOneByUserName(info.getLoginName());
 
         // 验证用户是否存在
         if (Objects.isNull(member)) {

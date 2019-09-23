@@ -19,12 +19,12 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("==============");
-
+        // 判断是否需要验证
         if (!authorizationUtil.isNeedVerify()) {
             return true;
         }
 
+        // 取得TOKEN信息
         String tokenContext = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (tokenContext == null) {
             handleUnauthorized(response);

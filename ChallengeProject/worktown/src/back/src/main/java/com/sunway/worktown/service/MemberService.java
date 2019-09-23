@@ -23,12 +23,12 @@ public class MemberService extends BaseRepositoryService<MemberEntity> {
     /**
      * 根据登录名取得用户信息
      *
-     * @param loginName 登录名
+     * @param userName 登录名
      * @return 用户信息
      */
-    public MemberEntity getOneByLoginName(String loginName) {
+    public MemberEntity getOneByUserName(String userName) {
         // 设置查询条件
-        Specification<MemberEntity> spec = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.<String>get("loginName"), loginName);
+        Specification<MemberEntity> spec = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.<String>get("userName"), userName);
 
         // 查询
         return repository.findOne(spec).orElse(null);
